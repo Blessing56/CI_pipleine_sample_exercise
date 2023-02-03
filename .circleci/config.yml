@@ -1,23 +1,25 @@
 version: 2.1
 
 jobs:
-  build:
-    docker: &docker
+  build: 
+    docker:
       -  image: circleci/node:13.8.0
-    step:
+    steps:
     - checkout
     - run:
         npm run lint
 
   test:
-    <<: *docker
+    docker:
+      -  image: circleci/node:13.8.0  
     steps:
       - checkout
       - run:
           npm run test
 
   analyse:
-    <<: *docker
+    docker:
+      -  image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
@@ -29,7 +31,7 @@ workflows:
     jobs:
     - build
     - test:
-        requirs:
+        requires:
           - build
     - analyse:
         requires:
