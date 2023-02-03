@@ -1,17 +1,14 @@
-version 2.1:
-
+version: 2.1
 
 jobs:
-        build_pipeline:
-                docker:
-                        -  image: circleci/node:13.8.0
-                steps:
-                        - chechout:
-                        - run:
-                                echo "HelloWorld"
+  build_pipeline:
+    docker:
+      -  image: circleci/node:13.8.0
+    steps:
+    - run:
+        echo "HelloWorld"
 
-workflow:
-        my_workflow:
-                jobs:
-                        - build_pipeline
-                  
+workflows:
+  my_workflow:
+    jobs:
+    - build_pipeline
