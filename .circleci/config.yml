@@ -1,14 +1,36 @@
 version: 2.1
 
 jobs:
-  build_pipeline:
-    docker:
+  build:
+    docker: &docker
       -  image: circleci/node:13.8.0
-    steps:
+    step:
+    - checkout
     - run:
-        echo "HelloWorld"
+        npm run lint
+
+  test:
+    <<: *docker
+    steps:
+      - checkout
+      - run:
+          npm run test
+
+  analyse:
+    <<: *docker
+    steps:
+      - checkout
+      - run:
+          npm audit
+
 
 workflows:
   my_workflow:
     jobs:
-    - build_pipeline
+    - build
+    - test:
+        requirs:
+          - build
+    - analyse:
+        requires:
+          - test
